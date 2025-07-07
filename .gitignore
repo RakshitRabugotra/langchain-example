@@ -1,0 +1,21 @@
+# Virtual environments
+.venv
+venv
+conda
+
+# Cache files
+__pycache__/
+
+# Output files
+out/
+dist/
+build/
+
+# Logs
+*.log
+
+# Environment Variables
+.env*
+
+# Except the example ones
+!.env.example

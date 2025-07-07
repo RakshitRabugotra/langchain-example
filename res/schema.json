@@ -1,0 +1,29 @@
+{
+  "title": "student",
+  "description": "Schema for structured output",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the person"
+    },
+    "age": {
+      "type": "integer",
+      "description": "The age of the person"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "The email address of the person"
+    },
+    "cgpa": {
+      "type": "number",
+      "format": "float",
+      "description": "The CGPA of the person",
+      "minimum": 0,
+      "maximum": 10
+    }
+  },
+  "required": ["name", "age", "email"],
+  "additionalProperties": false
+}
