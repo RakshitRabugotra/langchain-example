@@ -7,7 +7,9 @@ conda
 __pycache__/
 
 # Output files
-out/
+!out/
+
+# Build files
 dist/
 build/
 

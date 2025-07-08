@@ -20,6 +20,8 @@ class ModuleTuple(NamedTuple):
 # The type of the dict for import map
 ImportMap = dict[str, list[ModuleTuple]]
 
+# Some directories that are exempted from module_imports
+exempted_directories = [".git", ".venv", "__pycache__", "tools", "out", "res"]
 
 # Create a directory filter function
 directory_filter = lambda files: list(
@@ -27,7 +29,7 @@ directory_filter = lambda files: list(
         lambda file: os.path.isdir(file)
         and not file.startswith(".")
         and not file.startswith("__")
-        and not file in [".git", "venv", ".venv", "res", "out"],
+        and not file in exempted_directories,
         files,
     )
 )
