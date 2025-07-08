@@ -1,6 +1,7 @@
 # LangChain core
 langchain
 langchain-core
+langchain-community
 
 # OpenAI Integration
 langchain-openai
@@ -17,17 +18,19 @@ google-generativeai
 langchain-huggingface
 transformers
 huggingface-hub
+sentence-transformers
 
 # Environment Variable Management
 python-dotenv
 
 # Machine Learning Utilities
 numpy
-sentence-transformers
 torch
 torchvision
 torchaudio
 scikit-learn
 grandalf
-langchain-community
 faiss-cpu
+
+# For web based content
+beautifulsoup4

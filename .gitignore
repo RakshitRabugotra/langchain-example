@@ -13,6 +13,9 @@ __pycache__/
 dist/
 build/
 
+# Large files
+res/books/
+
 # Logs
 *.log
 

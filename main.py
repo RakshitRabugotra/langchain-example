@@ -34,7 +34,7 @@ def create_menu():
                 module_tuple,
             )
         )
-    
+
     # Now the global menu would like this:
     """
     {
@@ -58,9 +58,15 @@ def main():
 
     if menu:
         # Run the menu options
-        option_title, menu_option = MenuLoader.run_options(
-            menu, title="LangChain Examples", return_type="choice"
+        choice_index = MenuLoader.run_options(
+            map(
+                lambda x: (option_name_formatter(x[0], ""), x[1]), menu
+            ),  # Change the format of displayed menu
+            title="LangChain Examples",
+            return_type="choice",
         )
+
+        option_title, menu_option = menu[choice_index]
         # Create a menu and launch it
         MenuLoader.run_options(
             menu_option, title=option_name_formatter(option_title, "")

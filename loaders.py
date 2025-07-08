@@ -88,12 +88,18 @@ class MenuLoader:
     def run_options(
         options: list[tuple[str, Callable[[], None]]],
         title: str = "Menu Loader",
-        return_type: Literal["function", "choice"] = "function",
+        return_type: Literal["call", "function", "choice"] = "call",
     ) -> Union[Callable[[], None], tuple[str, Callable[[], None]], None]:
         """
         :param options: List of tuples containing option name and function to call
         :example: load_options([("Option 1", func1), ("Option 2", func2)])
         """
+        if not isinstance(options, list):
+            # If the options is a map object, or filter object, convert it to list
+            for obj_name in ["map", "filter"]:
+                if obj_name in str(type(options)):
+                    options = list(options)
+
         print(f"\n\nWelcome to the {title}!")
         print("Please select an option:")
         for i, (name, _) in enumerate(options, start=1):
@@ -119,8 +125,10 @@ class MenuLoader:
 
             # return according to the return type
             match return_type:
-                case "function":
+                case "call":
                     return options[choice][1]()
-                case "choice":
+                case "function":
                     return options[choice]
+                case "choice":
+                    return choice
             return None
