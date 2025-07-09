@@ -88,7 +88,7 @@ class MenuLoader:
     def run_options(
         options: list[tuple[str, Callable[[], None]]],
         title: str = "Menu Loader",
-        return_type: Literal["call", "function", "choice"] = "call",
+        return_type: Literal["call", "chosen", "index"] = "call",
     ) -> Union[Callable[[], None], tuple[str, Callable[[], None]], None]:
         """
         :param options: List of tuples containing option name and function to call
@@ -127,8 +127,8 @@ class MenuLoader:
             match return_type:
                 case "call":
                     return options[choice][1]()
-                case "function":
+                case "chosen":
                     return options[choice]
-                case "choice":
+                case "index":
                     return choice
             return None

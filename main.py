@@ -1,4 +1,4 @@
-from module_import import get_import_map, Exports, option_name_formatter
+from module_import import get_import_map, get_exports, option_name_formatter, Exports
 
 # Custom modules for environment loading
 # and to create menu
@@ -17,60 +17,47 @@ def create_demo(exports: Exports):
     return exports["main"]
 
 
-def create_menu():
+def format_import_map():
     """
     Create a menu to choose between the top-level directories
     """
     # Get all the options
     global_menu = get_import_map(debug=False)
-
-    for module_name, module_tuple in global_menu.items():
-        global_menu[module_name] = list(
-            map(
-                lambda entry: (
-                    option_name_formatter(entry.name, module_name),
-                    create_demo(entry.exports),
-                ),
-                module_tuple,
-            )
-        )
-
-    # Now the global menu would like this:
-    """
-    {
-        "_0_models": [
-            ("Project", <function main at 0x000001FF625C8540>),
-            ("Llms", <function main at 0x000001FF057CAFC0>),
-            ("Chat Models", <function main at 0x000001FF08B7E660>),
-            ("Embedding Models", <function main at 0x000001FF08B7EA20>),
-        ],
-        ...
-        "_6_document_loaders": [("Text Loader", <function main at 0x000001FF0587E2A0>)],
-    }
-    """
-
     # Global menu would now be returned as a zip
     return list(global_menu.items())
 
 
 def main():
-    menu = create_menu()
+    menu = format_import_map()
 
-    if menu:
-        # Run the menu options
-        choice_index = MenuLoader.run_options(
-            map(
-                lambda x: (option_name_formatter(x[0], ""), x[1]), menu
-            ),  # Change the format of displayed menu
-            title="LangChain Examples",
-            return_type="choice",
-        )
+    if not menu:
+        exit(-1)
 
-        option_title, menu_option = menu[choice_index]
-        # Create a menu and launch it
-        MenuLoader.run_options(
-            menu_option, title=option_name_formatter(option_title, "")
-        )
+    # Run the menu options
+    choice_index = MenuLoader.run_options(
+        map(
+            lambda x: (option_name_formatter(x[0], ""), x[1]), menu
+        ),  # Change the format of displayed menu
+        title="LangChain Examples",
+        return_type="index",
+    )
+
+    # Extract the option title
+    option_title, runnable_module_paths = menu[choice_index]
+
+    # Create a menu and launch it
+    _, demo_module_path = MenuLoader.run_options(
+        [
+            (option_name_formatter(module, option_title), module)
+            for module in runnable_module_paths
+        ],
+        title=option_name_formatter(option_title, ""),
+        return_type="chosen",
+    )
+    # we will import the runnable module
+    exports = get_exports(demo_module_path)
+    # Create the demo and launch it
+    create_demo(exports)()
 
 
 if __name__ == "__main__":
