@@ -34,3 +34,9 @@ faiss-cpu
 
 # For web based content
 beautifulsoup4
+selenium
+unstructured
+
+# For vector storage
+chromadb
+langchain-chroma

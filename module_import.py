@@ -18,7 +18,7 @@ class ModuleTuple(NamedTuple):
 
 
 # The type of the dict for import map
-ImportMap = dict[str, list[ModuleTuple]]
+ImportMap = dict[str, list[str]]
 
 # Some directories that are exempted from module_imports
 exempted_directories = [".git", ".venv", "__pycache__", "tools", "out", "res"]
@@ -43,6 +43,7 @@ subdirectory_filter = lambda full_paths: list(
     )
 )
 
+# Function to format an option name from the directory structure
 option_name_formatter: Callable[[str, str], str] = (
     lambda name, module_name: name.replace(module_name, "")
     .replace(".demo", "")
@@ -52,6 +53,12 @@ option_name_formatter: Callable[[str, str], str] = (
     # Ignoring the number before the option name
     [2:]
     .strip()
+)
+
+# Function to get the exports dictionary for a module
+get_exports: Callable[[str], Exports] = lambda dir: Exports(
+    # The module's export map which we store to Exports object
+    importlib.import_module(dir + ".demo").exports
 )
 
 
@@ -133,45 +140,9 @@ def get_import_map(debug=True):
         "_5_runnables": ["_5_runnables._0_pdf_reader", "_5_runnables._1_retrieval_chain"],
         "_6_document_loaders": ["_6_document_loaders._0_text_loader"],
     }
-
     """
-    # What we need to do is to import the `exports` from each module, and store it in the
-    # dictionary
-    for example in __import_map__:
-        directories = __import_map__[example]
-        # Now map the function to import specifically `exports`
-        get_exports = lambda dir: (dir, importlib.import_module(dir).exports)
-        # Update the import map to include 'demo.py' modules
-        __import_map__[example] = list(
-            map(get_exports, map(lambda _dir: _dir + ".demo", directories))
-        )
-
-    """
-    Now the import map looks like this:
-    {
-        '_0_models': [
-            ('_0_models.project.demo', {'main': <function main at 0x000001FEDFFDA200>, 'env': ['OPENAI_API_KEY', 'HUGGINGFACEHUB_ACCESS_TOKEN']}), 
-            ...
-            ('_0_models._2_embedding_models.demo', {'main': <function main at 0x000001FE8699A160>, 'env': ['OPENAI_API_KEY', 'HUGGINGFACEHUB_ACCESS_TOKEN']})
-            ], 
-        '_1_prompts': [
-            ('_1_prompts._1_templates.demo', {'main': <function main at 0x000001FE86A11580>, 'env': None})
-            ], 
-        ...
-        '_6_document_loaders': [
-            ('_6_document_loaders._0_text_loader.demo', {'main': <function main at 0x000001FE86C263E0>, 'env': None})
-            ]
-        }
-    """
-
-    # now we safely return import_map
-    import_map: ImportMap = {}
-    for module_name, module_tuple in __import_map__.items():
-        import_map[module_name] = list(
-            map(lambda entry: ModuleTuple(entry[0], Exports(entry[1])), module_tuple)
-        )
 
     if debug:
         print("[DEBUG]: Finished creating map for directories")
 
-    return import_map
+    return __import_map__

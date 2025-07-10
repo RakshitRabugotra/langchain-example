@@ -3,6 +3,11 @@
 venv
 conda
 
+# Database files
+db/
+*.db
+*.sqlite3
+
 # Cache files
 __pycache__/
 
@@ -12,6 +17,11 @@ __pycache__/
 # Build files
 dist/
 build/
+
+# Binary objects
+bin/
+*.exe
+*.bin
 
 # Large files
 res/books/
