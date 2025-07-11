@@ -11,7 +11,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 from huggingface_hub import login
 
-required_env = ["HUGGINGFACEHUB_ACCESS_TOKEN"]
+required_env = ["HUGGINGFACEHUB_ACCESS_TOKEN", "HUGGINGFACE_MODEL"]
 
 
 # We will create a pydantic class to structure the output
@@ -43,7 +43,7 @@ def init_model():
 
     # Create a huggingface endpoint for the model
     llm = HuggingFaceEndpoint(
-        repo_id="deepseek-ai/DeepSeek-R1-0528",
+        repo_id=os.getenv("HUGGINGFACE_MODEL"),
         task="text-generation",
         model_kwargs=dict(max_completion_tokens=200),
     )

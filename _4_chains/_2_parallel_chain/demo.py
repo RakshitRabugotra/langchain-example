@@ -14,7 +14,7 @@ from huggingface_hub import login
 # OpenAI model
 from langchain_openai import ChatOpenAI
 
-required_env = ["HUGGINGFACEHUB_ACCESS_TOKEN", "OPENAI_API_KEY", "OPENAI_MODEL"]
+required_env = ["HUGGINGFACEHUB_ACCESS_TOKEN", "OPENAI_API_KEY", "OPENAI_MODEL", "HUGGINGFACE_MODEL"]
 
 # Create a parser for this response
 parser = StrOutputParser()
@@ -54,7 +54,7 @@ def __create_huggingface_model():
 
     # Create a huggingface endpoint for the model
     llm = HuggingFaceEndpoint(
-        repo_id="deepseek-ai/DeepSeek-R1-0528",
+        repo_id=os.getenv("HUGGINGFACE_MODEL"),
         task="text-generation",
         model_kwargs=dict(max_completion_tokens=200),
     )

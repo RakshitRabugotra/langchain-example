@@ -49,7 +49,7 @@ Document(
   metadata={"source": "filename.pdf", ...}
 )
 """
-required_env = ["HUGGINGFACEHUB_ACCESS_TOKEN", "HUGGINGFACE_MODEL"]
+required_env = ["GOOGLE_API_KEY", "GOOGLE_GENERATIVE_MODEL"]
 
 
 # To get the system prompt
@@ -104,7 +104,7 @@ def save_if_positive(inputs: SystemPromptResponse):
 def main():
 
     # Create Gemini model to use :)
-    gemini = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.9)
+    gemini = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_GENERATIVE_MODEL"), temperature=0.9)
 
     # Create an output parser
     parser = StrOutputParser()

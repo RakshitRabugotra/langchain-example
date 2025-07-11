@@ -52,7 +52,7 @@ def main():
 
     # Create the model
     # llm = HuggingFaceEndpoint(
-    #     repo_id=os.getenv("HUGGINGFACE_MODEL", "deepseek-ai/DeepSeek-R1-0528"),
+    #     repo_id=os.getenv("HUGGINGFACE_MODEL", os.getenv("HUGGINGFACE_MODEL")),
     #     task="text-generation",
     # )
     # huggingface = ChatHuggingFace(llm=llm, temperature=0.9)
