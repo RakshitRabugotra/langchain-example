@@ -104,7 +104,7 @@ def main():
     # Print only the output
     print(f"[AI]: {output['answer']}")
 
-
+# Ignore this, doesn't affect this module when ran individually
 exports = {"main": main, "env": required_env}
 
 if __name__ == "__main__":

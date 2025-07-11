@@ -89,7 +89,7 @@ class MenuLoader:
         options: list[tuple[str, Callable[[], None]]],
         title: str = "Menu Loader",
         return_type: Literal["call", "chosen", "index"] = "call",
-    ) -> Union[Callable[[], None], tuple[str, Callable[[], None]], None]:
+    ) -> Union[Callable[[], None], tuple[str, Callable[[], None]], int, None]:
         """
         :param options: List of tuples containing option name and function to call
         :example: load_options([("Option 1", func1), ("Option 2", func2)])
@@ -108,7 +108,7 @@ class MenuLoader:
 
         while True:
             try:
-                choice = int(input("Enter your choice: "))
+                choice = int(input("\nEnter your choice: "))
             except ValueError:
                 print("Invalid input. Please enter a number.")
                 continue
