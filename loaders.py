@@ -1,6 +1,6 @@
 from dotenv import load_dotenv as load_dotenv
 from typing import Literal as Literal, Callable, Union
-import os as os
+import os
 
 
 class EnvLoader:
