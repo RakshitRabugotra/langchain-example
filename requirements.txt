@@ -45,3 +45,4 @@ langchain-chroma
 
 # For more tools
 duckduckgo-search
+ddgs
